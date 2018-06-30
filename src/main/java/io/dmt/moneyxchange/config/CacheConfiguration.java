@@ -42,6 +42,8 @@ public class CacheConfiguration {
             cm.createCache(io.dmt.moneyxchange.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(io.dmt.moneyxchange.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(io.dmt.moneyxchange.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(io.dmt.moneyxchange.domain.Currency.class.getName(), jcacheConfiguration);
+            cm.createCache(io.dmt.moneyxchange.domain.SpotExchange.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
