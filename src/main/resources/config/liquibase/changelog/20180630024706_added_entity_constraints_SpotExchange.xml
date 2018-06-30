@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity SpotExchange.
+    -->
+    <changeSet id="20180630024706-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="source_currency_id"
+                                 baseTableName="spot_exchange"
+                                 constraintName="fk_spot_exchange_source_currency_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="currency"/>
+
+        <addForeignKeyConstraint baseColumnNames="target_currency_id"
+                                 baseTableName="spot_exchange"
+                                 constraintName="fk_spot_exchange_target_currency_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="currency"/>
+
+    </changeSet>
+</databaseChangeLog>

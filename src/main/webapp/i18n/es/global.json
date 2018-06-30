@@ -130,5 +130,28 @@
         "emailexists": "Email is already in use!",
         "idexists": "A new {{entityName}} cannot already have an ID"
     },
-    "footer": "pie de página"
+    "footer": {
+        "legal": {
+            "label":"Información Legal",
+            "termsofservice":"Términos del Servicio",
+            "termsofuse":"Términos de uso",
+            "privacypolicy":"Política de Privacidad"
+        },
+        "aboutus":{
+            "label":"Acerca de",
+            "companyinfo":"Información de la Compañía",
+            "contactus":"Contáctenos",
+            "reviews":"Opiniones"
+        },
+        "support":{
+            "label":"Soporte",
+            "faq":"FAQ",
+            "helpdesk":"Mesa de Servicios",
+            "forums":"Foros"
+        },
+        "social":{
+            "label":"Social"
+        },
+        "copyright":"© 2016 MoneyXchange.io. Todos los derechos reservados"
+    }
 }

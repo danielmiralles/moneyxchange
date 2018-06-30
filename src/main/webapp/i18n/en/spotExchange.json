@@ -1,0 +1,26 @@
+
+{
+    "moneyxchangeApp": {
+        "spotExchange" : {
+            "home": {
+                "title": "Spot Exchanges",
+                "createLabel": "Create a new Spot Exchange",
+                "createOrEditLabel": "Create or edit a Spot Exchange",
+                "search": "Search for Spot Exchange"
+            },
+            "created": "A new Spot Exchange is created with identifier {{ param }}",
+            "updated": "A Spot Exchange is updated with identifier {{ param }}",
+            "deleted": "A Spot Exchange is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Spot Exchange {{ id }}?"
+            },
+            "detail": {
+                "title": "Spot Exchange"
+            },
+            "fromInstant": "From Instant",
+            "operation": "Operation",
+            "sourceCurrency": "Source Currency",
+            "targetCurrency": "Target Currency"
+        }
+    }
+}

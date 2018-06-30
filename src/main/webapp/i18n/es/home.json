@@ -1,19 +1,16 @@
 {
     "home": {
         "title": "¡Bienvenido a MoneyXchange!",
-        "subtitle": "Esta es su página de inicio",
+        "subtitle": "Autentíquese para acceder a las funcionalidades",
         "logged": {
             "message": "Está conectado como \"{{username}}\"."
         },
-        "question": "Si tiene preguntas sobre JHipster:",
+        "question": "Si tiene preguntas sobre MoneyXchange:",
         "link": {
-            "homepage": "Página de inicio de JHipster",
-            "stackoverflow": "JHipster en Stack Overflow",
-            "bugtracker": "JHipster seguimiento de errores",
-            "chat": "Sala de chat pública de JHipster",
-            "follow": "contacto @java_hipster en Twitter"
-        },
-        "like": "Si te gusta JHipster, danos una estrella en",
-        "github": "GitHub"
+            "faq": "Preguntas Frecuentes",
+            "helpdesk": "Mesa de Servicios",
+            "forums": "Foro",
+            "contactus": "Contáctenos"
+        }
     }
 }

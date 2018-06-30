@@ -1,0 +1,42 @@
+
+<div *ngIf="spotExchange">
+    <h2><span jhiTranslate="moneyxchangeApp.spotExchange.detail.title">Spot Exchange</span> {{spotExchange.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="moneyxchangeApp.spotExchange.fromInstant">From Instant</span></dt>
+        <dd>
+            <span>{{spotExchange.fromInstant | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="moneyxchangeApp.spotExchange.operation">Operation</span></dt>
+        <dd>
+            <span jhiTranslate="{{'moneyxchangeApp.Operation.' + spotExchange.operation}}">{{spotExchange.operation}}</span>
+        </dd>
+        <dt><span jhiTranslate="moneyxchangeApp.spotExchange.sourceCurrency">Source Currency</span></dt>
+        <dd>
+            <div *ngIf="spotExchange.sourceCurrencyId">
+                <a [routerLink]="['/currency', spotExchange.sourceCurrencyId]">{{spotExchange.sourceCurrencyCode}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="moneyxchangeApp.spotExchange.targetCurrency">Target Currency</span></dt>
+        <dd>
+            <div *ngIf="spotExchange.targetCurrencyId">
+                <a [routerLink]="['/currency', spotExchange.targetCurrencyId]">{{spotExchange.targetCurrencyCode}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'spot-exchange/'+ spotExchange.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

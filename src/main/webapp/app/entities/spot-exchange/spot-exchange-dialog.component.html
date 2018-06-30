@@ -1,0 +1,81 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="mySpotExchangeLabel" jhiTranslate="moneyxchangeApp.spotExchange.home.createOrEditLabel">Create or edit a Spot Exchange</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!spotExchange.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="spotExchange.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="moneyxchangeApp.spotExchange.fromInstant" for="field_fromInstant">From Instant</label>
+            <div class="d-flex">
+                <input id="field_fromInstant" type="datetime-local" class="form-control" name="fromInstant" [(ngModel)]="spotExchange.fromInstant"
+                required/>
+            </div>
+            <div [hidden]="!(editForm.controls.fromInstant?.dirty && editForm.controls.fromInstant?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.fromInstant?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.fromInstant?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="moneyxchangeApp.spotExchange.operation" for="field_operation">Operation</label>
+            <select class="form-control" name="operation" [(ngModel)]="spotExchange.operation" id="field_operation"  required>
+                <option value="MULTIPLY">{{'moneyxchangeApp.Operation.MULTIPLY' | translate}}</option>
+                <option value="DIVIDE">{{'moneyxchangeApp.Operation.DIVIDE' | translate}}</option>
+            </select>
+            <div [hidden]="!(editForm.controls.operation?.dirty && editForm.controls.operation?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.operation?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="moneyxchangeApp.spotExchange.sourceCurrency" for="field_sourceCurrency">Source Currency</label>
+            <select class="form-control" id="field_sourceCurrency" name="sourceCurrency" [(ngModel)]="spotExchange.sourceCurrencyId"  required>
+                <option *ngIf="!editForm.value.sourceCurrency" [ngValue]="null" selected></option>
+                <option [ngValue]="currencyOption.id" *ngFor="let currencyOption of currencies; trackBy: trackCurrencyById">{{currencyOption.code}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.sourceCurrency?.dirty && editForm.controls.sourceCurrency?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.sourceCurrency?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="moneyxchangeApp.spotExchange.targetCurrency" for="field_targetCurrency">Target Currency</label>
+            <select class="form-control" id="field_targetCurrency" name="targetCurrency" [(ngModel)]="spotExchange.targetCurrencyId"  required>
+                <option *ngIf="!editForm.value.targetCurrency" [ngValue]="null" selected></option>
+                <option [ngValue]="currencyOption.id" *ngFor="let currencyOption of currencies; trackBy: trackCurrencyById">{{currencyOption.code}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.targetCurrency?.dirty && editForm.controls.targetCurrency?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.targetCurrency?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

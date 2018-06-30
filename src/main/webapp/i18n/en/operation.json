@@ -1,0 +1,9 @@
+{
+    "moneyxchangeApp": {
+        "Operation" : {
+            "null": "",
+            "MULTIPLY": "MULTIPLY",
+            "DIVIDE": "DIVIDE"
+        }
+    }
+}

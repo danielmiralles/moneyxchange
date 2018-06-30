@@ -1,0 +1,46 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "sourceCurrency",
+            "otherEntityName": "currency",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "code"
+        },
+        {
+            "relationshipName": "targetCurrency",
+            "otherEntityName": "currency",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "code"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "fromInstant",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "operation",
+            "fieldType": "Operation",
+            "fieldValues": "MULTIPLY,DIVIDE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180630024706",
+    "dto": "mapstruct",
+    "service": "serviceClass",
+    "entityTableName": "spot_exchange",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pagination"
+}
