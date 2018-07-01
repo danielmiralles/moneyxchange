@@ -11,6 +11,9 @@
             "helpdesk": "Mesa de Servicios",
             "forums": "Foro",
             "contactus": "Contáctenos"
+        },
+        "change": {
+            "button":"Calcular"
         }
     }
 }

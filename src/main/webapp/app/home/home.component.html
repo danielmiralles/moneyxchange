@@ -1,37 +1,77 @@
-<div class="row">
-    <div class="col-md-3">
-        <span class="hipster img-fluid rounded"></span>
-    </div>
-    <div class="col-md-9">
-        <h1 class="display-4" jhiTranslate="home.title">Welcome, Java Hipster!</h1>
-        <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>
 
-        <div [ngSwitch]="isAuthenticated()">
-            <div class="alert alert-success" *ngSwitchCase="true">
-                <span *ngIf="account" jhiTranslate="home.logged.message"
-                    translateValues="{username: '{{account.login}}'}"> You are logged in as user "{{account.login}}". </span>
-            </div>
-
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span jhiTranslate="global.messages.info.authenticated.prefix">If you want to </span>
-                <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">sign in</a><span jhiTranslate="global.messages.info.authenticated.suffix">, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>
-            </div>
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>
-                <a class="alert-link" routerLink="register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
-            </div>
+<div [ngSwitch]="isAuthenticated()">
+    <div class="row" *ngSwitchCase="false">
+        <div class="col-md-3">
+            <span class="hipster img-fluid rounded"></span>
         </div>
+        <div class="col-md-9">
+            <h1 class="display-4" jhiTranslate="home.title">Welcome, Java Hipster!</h1>
+            <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>
 
-        <p jhiTranslate="home.question">
-            If you have any question on JHipster:
-        </p>
+            <div >
 
-        <ul>
-            <li><a href="#" jhiTranslate="home.link.faq">JHipster homepage</a></li>
-            <li><a href="#" jhiTranslate="home.link.helpdesk">JHipster on Stack Overflow</a></li>
-            <li><a href="#" jhiTranslate="home.link.forums">JHipster bug tracker</a></li>
-            <li><a href="#" jhiTranslate="home.link.contactus">JHipster public chat room</a></li>
-        </ul>
+                <div class="alert alert-warning">
+                    <span jhiTranslate="global.messages.info.authenticated.prefix">If you want to </span>
+                    <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">sign in</a><span jhiTranslate="global.messages.info.authenticated.suffix">, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>
+                </div>
+                <div class="alert alert-warning">
+                    <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>
+                    <a class="alert-link" routerLink="register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
+                </div>
+            </div>
 
+            <p jhiTranslate="home.question">
+                If you have any question on JHipster:
+            </p>
+
+            <ul>
+                <li><a href="#" jhiTranslate="home.link.faq">JHipster homepage</a></li>
+                <li><a href="#" jhiTranslate="home.link.helpdesk">JHipster on Stack Overflow</a></li>
+                <li><a href="#" jhiTranslate="home.link.forums">JHipster bug tracker</a></li>
+                <li><a href="#" jhiTranslate="home.link.contactus">JHipster public chat room</a></li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="row-fluid" *ngSwitchCase="true" style="padding-top: 100px; padding-bottom: 100px">
+        <div class="row">
+            <div class="col-lg-3 col-lg-offset-3">
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-3 col-lg-offset-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                    <div class="input-group-append">
+                        <span class="input-group-text">USD</span>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-3 col-lg-offset-3">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">EUR</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text">&euro;</span>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-3 col-lg-offset-3">
+            </div><!-- /.col-lg-4 -->
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-4 text-center">
+            </div><!-- /.col-lg-4 -->
+            <div class="col-md-4 text-center">
+                <button class="btn btn-success btn-lg btn-block center-block" jhiTranslate="home.change.button"></button>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-md-4 text-center">
+            </div><!-- /.col-lg-4 -->
+        </div>
     </div>
 </div>
+
