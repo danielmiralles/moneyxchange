@@ -42,7 +42,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">$</span>
                     </div>
-                    <input [(ngModel)]="dollarVal" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                    <input [(ngModel)]="dollarVal" type="text" class="form-control text-right" jhiCustomCurrency aria-label="Amount (to the nearest dollar)">
                     <div class="input-group-append">
                         <span class="input-group-text">USD</span>
                     </div>
@@ -53,7 +53,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">EUR</span>
                     </div>
-                    <input [(ngModel)]="euroVal" type="text" class="form-control" aria-label="Amount (to the nearest dollar)" readonly>
+                    <input [ngModel]="euroVal | customcurrency : 4" (ngModelChange)="euroVal = $event" type="text" class="form-control text-right"  aria-label="Amount (to the nearest dollar)" readonly>
                     <div class="input-group-append">
                         <span class="input-group-text">&euro;</span>
                     </div>
@@ -71,6 +71,11 @@
             </div><!-- /.col-lg-4 -->
             <div class="col-md-4 text-center">
             </div><!-- /.col-lg-4 -->
+        </div>
+        <div class="row" style="margin-top: 40px">
+            <div class="col-md-12 text-center">
+                <span *ngIf="showTimer" class="alert alert-warning"><jhi-mini-timer></jhi-mini-timer></span>
+            </div>
         </div>
     </div>
 </div>
