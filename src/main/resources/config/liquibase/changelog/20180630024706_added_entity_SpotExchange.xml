@@ -30,6 +30,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="rate" type="decimal(10,2)">
+                <constraints nullable="false" />
+            </column>
+
             <column name="source_currency_id" type="bigint">
                 <constraints nullable="false" />
             </column>

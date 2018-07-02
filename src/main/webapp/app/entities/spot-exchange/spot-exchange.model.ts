@@ -10,6 +10,7 @@ export class SpotExchange implements BaseEntity {
         public id?: number,
         public fromInstant?: any,
         public operation?: Operation,
+        public rate?: number,
         public sourceCurrencyId?: number,
         public targetCurrencyId?: number,
     ) {

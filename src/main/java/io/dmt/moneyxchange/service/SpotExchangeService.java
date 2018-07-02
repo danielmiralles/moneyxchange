@@ -1,8 +1,11 @@
 package io.dmt.moneyxchange.service;
 
+import io.dmt.moneyxchange.config.ApplicationProperties;
+import io.dmt.moneyxchange.domain.Currency;
 import io.dmt.moneyxchange.domain.SpotExchange;
 import io.dmt.moneyxchange.repository.SpotExchangeRepository;
 import io.dmt.moneyxchange.repository.search.SpotExchangeSearchRepository;
+import io.dmt.moneyxchange.service.dto.ExchangeResponseDTO;
 import io.dmt.moneyxchange.service.dto.SpotExchangeDTO;
 import io.dmt.moneyxchange.service.mapper.SpotExchangeMapper;
 import org.slf4j.Logger;
@@ -13,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.Instant;
+import java.util.Optional;
+
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -22,6 +28,8 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 @Transactional
 public class SpotExchangeService {
 
+    private final ApplicationProperties applicationProperties;
+
     private final Logger log = LoggerFactory.getLogger(SpotExchangeService.class);
 
     private final SpotExchangeRepository spotExchangeRepository;
@@ -30,10 +38,11 @@ public class SpotExchangeService {
 
     private final SpotExchangeSearchRepository spotExchangeSearchRepository;
 
-    public SpotExchangeService(SpotExchangeRepository spotExchangeRepository, SpotExchangeMapper spotExchangeMapper, SpotExchangeSearchRepository spotExchangeSearchRepository) {
+    public SpotExchangeService(SpotExchangeRepository spotExchangeRepository, SpotExchangeMapper spotExchangeMapper, SpotExchangeSearchRepository spotExchangeSearchRepository, ApplicationProperties applicationProperties) {
         this.spotExchangeRepository = spotExchangeRepository;
         this.spotExchangeMapper = spotExchangeMapper;
         this.spotExchangeSearchRepository = spotExchangeSearchRepository;
+        this.applicationProperties = applicationProperties;
     }
 
     /**
@@ -100,5 +109,34 @@ public class SpotExchangeService {
         log.debug("Request to search for a page of SpotExchanges for query {}", query);
         Page<SpotExchange> result = spotExchangeSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(spotExchangeMapper::toDto);
+    }
+
+    /**
+     *  Search spot exchange for request.
+     *
+     *  @param instant the instant of time
+     */
+    public ExchangeResponseDTO getExchangeResponse(Instant instant, Currency source, Currency target){
+        Optional<SpotExchange> actualSE = this.spotExchangeRepository.findFirstByFromInstantBeforeAndSourceCurrencyAndTargetCurrencyOrderByFromInstantDesc(instant, source, target);
+        Optional<SpotExchange> futureSE = this.spotExchangeRepository.findFirstByFromInstantAfterAndSourceCurrencyAndTargetCurrencyOrderByFromInstantAsc(instant, source, target);
+
+        ExchangeResponseDTO response = new ExchangeResponseDTO();
+
+        if (actualSE.isPresent()){
+            response.setExchangeRate(actualSE.get().getRate());
+            response.setOperation(actualSE.get().getOperation().name());
+            if (futureSE.isPresent()){
+                long timeInSecDiff = futureSE.get().getFromInstant().getEpochSecond() - actualSE.get().getFromInstant().getEpochSecond();
+                if (timeInSecDiff > applicationProperties.getExchange().getTimeout()){
+                    response.setTimeout(applicationProperties.getExchange().getTimeout());
+                } else {
+                    response.setTimeout((int) timeInSecDiff);
+                }
+            } else {
+                response.setTimeout(applicationProperties.getExchange().getTimeout());
+            }
+        }
+
+        return response;
     }
 }

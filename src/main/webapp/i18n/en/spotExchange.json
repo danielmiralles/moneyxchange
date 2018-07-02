@@ -19,6 +19,7 @@
             },
             "fromInstant": "From Instant",
             "operation": "Operation",
+            "rate": "Rate",
             "sourceCurrency": "Source Currency",
             "targetCurrency": "Target Currency"
         }

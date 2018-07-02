@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -36,6 +37,10 @@ public class SpotExchange implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "operation", nullable = false)
     private Operation operation;
+
+    @NotNull
+    @Column(name = "rate", precision=10, scale=2, nullable = false)
+    private BigDecimal rate;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -78,6 +83,19 @@ public class SpotExchange implements Serializable {
 
     public void setOperation(Operation operation) {
         this.operation = operation;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public SpotExchange rate(BigDecimal rate) {
+        this.rate = rate;
+        return this;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
     }
 
     public Currency getSourceCurrency() {
@@ -133,6 +151,7 @@ public class SpotExchange implements Serializable {
             "id=" + getId() +
             ", fromInstant='" + getFromInstant() + "'" +
             ", operation='" + getOperation() + "'" +
+            ", rate=" + getRate() +
             "}";
     }
 }

@@ -1,7 +1,10 @@
 package io.dmt.moneyxchange.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import io.dmt.moneyxchange.domain.Currency;
+import io.dmt.moneyxchange.service.CurrencyService;
 import io.dmt.moneyxchange.service.SpotExchangeService;
+import io.dmt.moneyxchange.service.dto.ExchangeResponseDTO;
 import io.dmt.moneyxchange.web.rest.errors.BadRequestAlertException;
 import io.dmt.moneyxchange.web.rest.util.HeaderUtil;
 import io.dmt.moneyxchange.web.rest.util.PaginationUtil;
@@ -9,6 +12,7 @@ import io.dmt.moneyxchange.service.dto.SpotExchangeDTO;
 import io.dmt.moneyxchange.service.dto.SpotExchangeCriteria;
 import io.dmt.moneyxchange.service.SpotExchangeQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.checkerframework.checker.units.qual.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -22,6 +26,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -43,9 +48,12 @@ public class SpotExchangeResource {
 
     private final SpotExchangeQueryService spotExchangeQueryService;
 
-    public SpotExchangeResource(SpotExchangeService spotExchangeService, SpotExchangeQueryService spotExchangeQueryService) {
+    private final CurrencyService currencyService;
+
+    public SpotExchangeResource(SpotExchangeService spotExchangeService, SpotExchangeQueryService spotExchangeQueryService, CurrencyService currencyService) {
         this.spotExchangeService = spotExchangeService;
         this.spotExchangeQueryService = spotExchangeQueryService;
+        this.currencyService = currencyService;
     }
 
     /**
@@ -149,6 +157,14 @@ public class SpotExchangeResource {
         Page<SpotExchangeDTO> page = spotExchangeService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/spot-exchanges");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/exchange-rate/{source}/{target}")
+    @Timed
+    public ResponseEntity<ExchangeResponseDTO> getExchangeRate(@PathVariable String source, @PathVariable String target){
+        Optional<Currency> sourceCurrency = this.currencyService.findOneByCode(source);
+        Optional<Currency> targetCurrency = this.currencyService.findOneByCode(target);
+        return new ResponseEntity<ExchangeResponseDTO>(this.spotExchangeService.getExchangeResponse(Instant.now(), sourceCurrency.get(), targetCurrency.get()), HttpStatus.OK);
     }
 
 }

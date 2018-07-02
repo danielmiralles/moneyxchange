@@ -6,6 +6,7 @@ import io.dmt.moneyxchange.domain.SpotExchange;
 import io.dmt.moneyxchange.domain.Currency;
 import io.dmt.moneyxchange.domain.Currency;
 import io.dmt.moneyxchange.repository.SpotExchangeRepository;
+import io.dmt.moneyxchange.service.CurrencyService;
 import io.dmt.moneyxchange.service.SpotExchangeService;
 import io.dmt.moneyxchange.repository.search.SpotExchangeSearchRepository;
 import io.dmt.moneyxchange.service.dto.SpotExchangeDTO;
@@ -29,6 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -54,6 +56,9 @@ public class SpotExchangeResourceIntTest {
 
     private static final Operation DEFAULT_OPERATION = Operation.MULTIPLY;
     private static final Operation UPDATED_OPERATION = Operation.DIVIDE;
+
+    private static final BigDecimal DEFAULT_RATE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_RATE = new BigDecimal(2);
 
     @Autowired
     private SpotExchangeRepository spotExchangeRepository;
@@ -86,10 +91,13 @@ public class SpotExchangeResourceIntTest {
 
     private SpotExchange spotExchange;
 
+    @Autowired
+    private CurrencyService currencyService;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final SpotExchangeResource spotExchangeResource = new SpotExchangeResource(spotExchangeService, spotExchangeQueryService);
+        final SpotExchangeResource spotExchangeResource = new SpotExchangeResource(spotExchangeService, spotExchangeQueryService, currencyService);
         this.restSpotExchangeMockMvc = MockMvcBuilders.standaloneSetup(spotExchangeResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -106,7 +114,8 @@ public class SpotExchangeResourceIntTest {
     public static SpotExchange createEntity(EntityManager em) {
         SpotExchange spotExchange = new SpotExchange()
             .fromInstant(DEFAULT_FROM_INSTANT)
-            .operation(DEFAULT_OPERATION);
+            .operation(DEFAULT_OPERATION)
+            .rate(DEFAULT_RATE);
         // Add required entity
         Currency sourceCurrency = CurrencyResourceIntTest.createEntity(em);
         em.persist(sourceCurrency);
@@ -144,6 +153,7 @@ public class SpotExchangeResourceIntTest {
         SpotExchange testSpotExchange = spotExchangeList.get(spotExchangeList.size() - 1);
         assertThat(testSpotExchange.getFromInstant()).isEqualTo(DEFAULT_FROM_INSTANT);
         assertThat(testSpotExchange.getOperation()).isEqualTo(DEFAULT_OPERATION);
+        assertThat(testSpotExchange.getRate()).isEqualTo(DEFAULT_RATE);
 
         // Validate the SpotExchange in Elasticsearch
         SpotExchange spotExchangeEs = spotExchangeSearchRepository.findOne(testSpotExchange.getId());
@@ -210,6 +220,25 @@ public class SpotExchangeResourceIntTest {
 
     @Test
     @Transactional
+    public void checkRateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = spotExchangeRepository.findAll().size();
+        // set the field null
+        spotExchange.setRate(null);
+
+        // Create the SpotExchange, which fails.
+        SpotExchangeDTO spotExchangeDTO = spotExchangeMapper.toDto(spotExchange);
+
+        restSpotExchangeMockMvc.perform(post("/api/spot-exchanges")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(spotExchangeDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<SpotExchange> spotExchangeList = spotExchangeRepository.findAll();
+        assertThat(spotExchangeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllSpotExchanges() throws Exception {
         // Initialize the database
         spotExchangeRepository.saveAndFlush(spotExchange);
@@ -220,7 +249,8 @@ public class SpotExchangeResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(spotExchange.getId().intValue())))
             .andExpect(jsonPath("$.[*].fromInstant").value(hasItem(DEFAULT_FROM_INSTANT.toString())))
-            .andExpect(jsonPath("$.[*].operation").value(hasItem(DEFAULT_OPERATION.toString())));
+            .andExpect(jsonPath("$.[*].operation").value(hasItem(DEFAULT_OPERATION.toString())))
+            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.intValue())));
     }
 
     @Test
@@ -235,7 +265,8 @@ public class SpotExchangeResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(spotExchange.getId().intValue()))
             .andExpect(jsonPath("$.fromInstant").value(DEFAULT_FROM_INSTANT.toString()))
-            .andExpect(jsonPath("$.operation").value(DEFAULT_OPERATION.toString()));
+            .andExpect(jsonPath("$.operation").value(DEFAULT_OPERATION.toString()))
+            .andExpect(jsonPath("$.rate").value(DEFAULT_RATE.intValue()));
     }
 
     @Test
@@ -318,6 +349,45 @@ public class SpotExchangeResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSpotExchangesByRateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        spotExchangeRepository.saveAndFlush(spotExchange);
+
+        // Get all the spotExchangeList where rate equals to DEFAULT_RATE
+        defaultSpotExchangeShouldBeFound("rate.equals=" + DEFAULT_RATE);
+
+        // Get all the spotExchangeList where rate equals to UPDATED_RATE
+        defaultSpotExchangeShouldNotBeFound("rate.equals=" + UPDATED_RATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpotExchangesByRateIsInShouldWork() throws Exception {
+        // Initialize the database
+        spotExchangeRepository.saveAndFlush(spotExchange);
+
+        // Get all the spotExchangeList where rate in DEFAULT_RATE or UPDATED_RATE
+        defaultSpotExchangeShouldBeFound("rate.in=" + DEFAULT_RATE + "," + UPDATED_RATE);
+
+        // Get all the spotExchangeList where rate equals to UPDATED_RATE
+        defaultSpotExchangeShouldNotBeFound("rate.in=" + UPDATED_RATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpotExchangesByRateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        spotExchangeRepository.saveAndFlush(spotExchange);
+
+        // Get all the spotExchangeList where rate is not null
+        defaultSpotExchangeShouldBeFound("rate.specified=true");
+
+        // Get all the spotExchangeList where rate is null
+        defaultSpotExchangeShouldNotBeFound("rate.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllSpotExchangesBySourceCurrencyIsEqualToSomething() throws Exception {
         // Initialize the database
         Currency sourceCurrency = CurrencyResourceIntTest.createEntity(em);
@@ -362,7 +432,8 @@ public class SpotExchangeResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(spotExchange.getId().intValue())))
             .andExpect(jsonPath("$.[*].fromInstant").value(hasItem(DEFAULT_FROM_INSTANT.toString())))
-            .andExpect(jsonPath("$.[*].operation").value(hasItem(DEFAULT_OPERATION.toString())));
+            .andExpect(jsonPath("$.[*].operation").value(hasItem(DEFAULT_OPERATION.toString())))
+            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.intValue())));
     }
 
     /**
@@ -399,7 +470,8 @@ public class SpotExchangeResourceIntTest {
         em.detach(updatedSpotExchange);
         updatedSpotExchange
             .fromInstant(UPDATED_FROM_INSTANT)
-            .operation(UPDATED_OPERATION);
+            .operation(UPDATED_OPERATION)
+            .rate(UPDATED_RATE);
         SpotExchangeDTO spotExchangeDTO = spotExchangeMapper.toDto(updatedSpotExchange);
 
         restSpotExchangeMockMvc.perform(put("/api/spot-exchanges")
@@ -413,6 +485,7 @@ public class SpotExchangeResourceIntTest {
         SpotExchange testSpotExchange = spotExchangeList.get(spotExchangeList.size() - 1);
         assertThat(testSpotExchange.getFromInstant()).isEqualTo(UPDATED_FROM_INSTANT);
         assertThat(testSpotExchange.getOperation()).isEqualTo(UPDATED_OPERATION);
+        assertThat(testSpotExchange.getRate()).isEqualTo(UPDATED_RATE);
 
         // Validate the SpotExchange in Elasticsearch
         SpotExchange spotExchangeEs = spotExchangeSearchRepository.findOne(testSpotExchange.getId());
@@ -473,7 +546,8 @@ public class SpotExchangeResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(spotExchange.getId().intValue())))
             .andExpect(jsonPath("$.[*].fromInstant").value(hasItem(DEFAULT_FROM_INSTANT.toString())))
-            .andExpect(jsonPath("$.[*].operation").value(hasItem(DEFAULT_OPERATION.toString())));
+            .andExpect(jsonPath("$.[*].operation").value(hasItem(DEFAULT_OPERATION.toString())))
+            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.intValue())));
     }
 
     @Test
@@ -513,4 +587,6 @@ public class SpotExchangeResourceIntTest {
         assertThat(spotExchangeMapper.fromId(42L).getId()).isEqualTo(42);
         assertThat(spotExchangeMapper.fromId(null)).isNull();
     }
+
+
 }

@@ -12,6 +12,10 @@
         <dd>
             <span jhiTranslate="{{'moneyxchangeApp.Operation.' + spotExchange.operation}}">{{spotExchange.operation}}</span>
         </dd>
+        <dt><span jhiTranslate="moneyxchangeApp.spotExchange.rate">Rate</span></dt>
+        <dd>
+            <span>{{spotExchange.rate}}</span>
+        </dd>
         <dt><span jhiTranslate="moneyxchangeApp.spotExchange.sourceCurrency">Source Currency</span></dt>
         <dd>
             <div *ngIf="spotExchange.sourceCurrencyId">

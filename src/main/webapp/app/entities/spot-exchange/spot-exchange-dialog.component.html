@@ -42,6 +42,21 @@
                 </small>
             </div>
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="moneyxchangeApp.spotExchange.rate" for="field_rate">Rate</label>
+            <input type="number" class="form-control" name="rate" id="field_rate"
+                [(ngModel)]="spotExchange.rate" required/>
+            <div [hidden]="!(editForm.controls.rate?.dirty && editForm.controls.rate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.rate?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.rate?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="moneyxchangeApp.spotExchange.sourceCurrency" for="field_sourceCurrency">Source Currency</label>

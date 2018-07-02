@@ -68,7 +68,7 @@ class SpotExchangeGatlingTest extends Simulation {
             .exec(http("Create new spotExchange")
             .post("/api/spot-exchanges")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "fromInstant":"2020-01-01T00:00:00.000Z", "operation":null}""")).asJSON
+            .body(StringBody("""{"id":null, "fromInstant":"2020-01-01T00:00:00.000Z", "operation":null, "rate":"0"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_spotExchange_url"))).exitHereIfFailed
             .pause(10)

@@ -32,6 +32,7 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="fromInstant"><span jhiTranslate="moneyxchangeApp.spotExchange.fromInstant">From Instant</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="operation"><span jhiTranslate="moneyxchangeApp.spotExchange.operation">Operation</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="rate"><span jhiTranslate="moneyxchangeApp.spotExchange.rate">Rate</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="sourceCurrencyCode"><span jhiTranslate="moneyxchangeApp.spotExchange.sourceCurrency">Source Currency</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="targetCurrencyCode"><span jhiTranslate="moneyxchangeApp.spotExchange.targetCurrency">Target Currency</span> <span class="fa fa-sort"></span></th>
             <th></th>
@@ -42,6 +43,7 @@
                 <td><a [routerLink]="['../spot-exchange', spotExchange.id ]">{{spotExchange.id}}</a></td>
                 <td>{{spotExchange.fromInstant | date:'medium'}}</td>
                 <td jhiTranslate="{{'moneyxchangeApp.Operation.' + spotExchange.operation}}">{{spotExchange.operation}}</td>
+                <td>{{spotExchange.rate}}</td>
                 <td>
                     <div *ngIf="spotExchange.sourceCurrencyId">
                         <a [routerLink]="['../currency', spotExchange.sourceCurrencyId  ]" >{{spotExchange.sourceCurrencyCode}}</a>

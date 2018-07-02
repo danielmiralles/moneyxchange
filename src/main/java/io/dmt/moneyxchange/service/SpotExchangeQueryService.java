@@ -1,6 +1,7 @@
 package io.dmt.moneyxchange.service;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -88,6 +89,9 @@ public class SpotExchangeQueryService extends QueryService<SpotExchange> {
             }
             if (criteria.getOperation() != null) {
                 specification = specification.and(buildSpecification(criteria.getOperation(), SpotExchange_.operation));
+            }
+            if (criteria.getRate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getRate(), SpotExchange_.rate));
             }
             if (criteria.getSourceCurrencyId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getSourceCurrencyId(), SpotExchange_.sourceCurrency, Currency_.id));

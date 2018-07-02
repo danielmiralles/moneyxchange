@@ -4,6 +4,7 @@ package io.dmt.moneyxchange.service.dto;
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -21,6 +22,9 @@ public class SpotExchangeDTO implements Serializable {
 
     @NotNull
     private Operation operation;
+
+    @NotNull
+    private BigDecimal rate;
 
     private Long sourceCurrencyId;
 
@@ -52,6 +56,14 @@ public class SpotExchangeDTO implements Serializable {
 
     public void setOperation(Operation operation) {
         this.operation = operation;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
     }
 
     public Long getSourceCurrencyId() {
@@ -113,6 +125,7 @@ public class SpotExchangeDTO implements Serializable {
             "id=" + getId() +
             ", fromInstant='" + getFromInstant() + "'" +
             ", operation='" + getOperation() + "'" +
+            ", rate=" + getRate() +
             "}";
     }
 }

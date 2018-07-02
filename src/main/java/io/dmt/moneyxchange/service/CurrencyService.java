@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.Optional;
+
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -75,6 +77,18 @@ public class CurrencyService {
         log.debug("Request to get Currency : {}", id);
         Currency currency = currencyRepository.findOne(id);
         return currencyMapper.toDto(currency);
+    }
+
+    /**
+     * Get one currency by id.
+     *
+     * @param id the id of the entity
+     * @return the entity
+     */
+    @Transactional(readOnly = true)
+    public Optional<Currency> findOneByCode(String code) {
+        log.debug("Request to get Currency : {}", code);
+        return currencyRepository.findOneByCode(code);
     }
 
     /**

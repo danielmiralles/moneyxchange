@@ -9,7 +9,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.InstantFilter;
 
 
@@ -38,6 +38,8 @@ public class SpotExchangeCriteria implements Serializable {
     private InstantFilter fromInstant;
 
     private OperationFilter operation;
+
+    private BigDecimalFilter rate;
 
     private LongFilter sourceCurrencyId;
 
@@ -70,6 +72,14 @@ public class SpotExchangeCriteria implements Serializable {
         this.operation = operation;
     }
 
+    public BigDecimalFilter getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimalFilter rate) {
+        this.rate = rate;
+    }
+
     public LongFilter getSourceCurrencyId() {
         return sourceCurrencyId;
     }
@@ -92,6 +102,7 @@ public class SpotExchangeCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (fromInstant != null ? "fromInstant=" + fromInstant + ", " : "") +
                 (operation != null ? "operation=" + operation + ", " : "") +
+                (rate != null ? "rate=" + rate + ", " : "") +
                 (sourceCurrencyId != null ? "sourceCurrencyId=" + sourceCurrencyId + ", " : "") +
                 (targetCurrencyId != null ? "targetCurrencyId=" + targetCurrencyId + ", " : "") +
             "}";

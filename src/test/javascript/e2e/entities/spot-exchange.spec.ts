@@ -36,6 +36,8 @@ describe('SpotExchange e2e test', () => {
         spotExchangeDialogPage.setFromInstantInput(12310020012301);
         expect(spotExchangeDialogPage.getFromInstantInput()).toMatch('2001-12-31T02:30');
         spotExchangeDialogPage.operationSelectLastOption();
+        spotExchangeDialogPage.setRateInput('5');
+        expect(spotExchangeDialogPage.getRateInput()).toMatch('5');
         spotExchangeDialogPage.sourceCurrencySelectLastOption();
         spotExchangeDialogPage.targetCurrencySelectLastOption();
         spotExchangeDialogPage.save();
@@ -66,6 +68,7 @@ export class SpotExchangeDialogPage {
     closeButton = element(by.css('button.close'));
     fromInstantInput = element(by.css('input#field_fromInstant'));
     operationSelect = element(by.css('select#field_operation'));
+    rateInput = element(by.css('input#field_rate'));
     sourceCurrencySelect = element(by.css('select#field_sourceCurrency'));
     targetCurrencySelect = element(by.css('select#field_targetCurrency'));
 
@@ -92,6 +95,14 @@ export class SpotExchangeDialogPage {
     operationSelectLastOption = function() {
         this.operationSelect.all(by.tagName('option')).last().click();
     };
+    setRateInput = function(rate) {
+        this.rateInput.sendKeys(rate);
+    };
+
+    getRateInput = function() {
+        return this.rateInput.getAttribute('value');
+    };
+
     sourceCurrencySelectLastOption = function() {
         this.sourceCurrencySelect.all(by.tagName('option')).last().click();
     };
