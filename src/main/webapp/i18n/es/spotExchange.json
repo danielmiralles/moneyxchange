@@ -3,25 +3,25 @@
     "moneyxchangeApp": {
         "spotExchange" : {
             "home": {
-                "title": "Spot Exchanges",
-                "createLabel": "Crear nuevo Spot Exchange",
-                "createOrEditLabel": "Crear o editar Spot Exchange",
-                "search": "Search for Spot Exchange"
+                "title": "Tasas de Cambios",
+                "createLabel": "Crear nueva tasa de cambio",
+                "createOrEditLabel": "Crear o editar tasa de cambio",
+                "search": "Buscar tasa de cambio"
             },
-            "created": "Un nuevo Spot Exchange ha sido creado con el identificador {{ param }}",
-            "updated": "Un Spot Exchange ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Spot Exchange ha sido eliminado con el identificador {{ param }}",
+            "created": "Tasa de cambio creada satisfactoriamente",
+            "updated": "Tasa de cambio actualizada satisfactoriamente",
+            "deleted": "Tasa de cambio eliminada satisfactoriamente",
             "delete": {
-                "question": "¿Seguro que quiere eliminar Spot Exchange {{ id }}?"
+                "question": "¿Seguro que quiere eliminar una tasa de cambio?"
             },
             "detail": {
-                "title": "Spot Exchange"
+                "title": "Tasa de cambio"
             },
-            "fromInstant": "From Instant",
-            "operation": "Operation",
-            "rate": "Rate",
-            "sourceCurrency": "Source Currency",
-            "targetCurrency": "Target Currency"
+            "fromInstant": "A partir de",
+            "operation": "Operación",
+            "rate": "Tasa",
+            "sourceCurrency": "Moneda origen",
+            "targetCurrency": "Moneda destino"
         }
     }
 }

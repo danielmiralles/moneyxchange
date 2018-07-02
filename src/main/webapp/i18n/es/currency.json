@@ -3,24 +3,24 @@
     "moneyxchangeApp": {
         "currency" : {
             "home": {
-                "title": "Currencies",
-                "createLabel": "Crear nuevo Currency",
-                "createOrEditLabel": "Crear o editar Currency",
-                "search": "Search for Currency"
+                "title": "Monedas",
+                "createLabel": "Crear nueva moneda",
+                "createOrEditLabel": "Crear o editar moneda",
+                "search": "Buscar monedas"
             },
-            "created": "Un nuevo Currency ha sido creado con el identificador {{ param }}",
-            "updated": "Un Currency ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Currency ha sido eliminado con el identificador {{ param }}",
+            "created": "La moneda ha sido creado satisfactoriamente",
+            "updated": "La moneda ha sido actualizada satisfactoriamente",
+            "deleted": "La moneda se ha eliminado satisfactoriamente",
             "delete": {
-                "question": "¿Seguro que quiere eliminar Currency {{ id }}?"
+                "question": "¿Seguro que quiere eliminar la moneda?"
             },
             "detail": {
-                "title": "Currency"
+                "title": "Moneda"
             },
-            "code": "Code",
-            "symbol": "Symbol",
-            "symbolLeft": "Symbol Left",
-            "description": "Description"
+            "code": "Código",
+            "symbol": "Símbolo",
+            "symbolLeft": "Símbolo al final",
+            "description": "Descripción"
         }
     }
 }
