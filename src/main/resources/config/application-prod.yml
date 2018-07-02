@@ -143,3 +143,5 @@ jhipster:
 # ===================================================================
 
 application:
+    exchange:
+        timeout: 10 #Exchange timeout in seconds.
