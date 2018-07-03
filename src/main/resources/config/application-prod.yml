@@ -49,12 +49,16 @@ spring:
     data:
         elasticsearch:
             cluster-name:
-            cluster-nodes: localhost:9300
+            cluster-nodes:
+            properties:
+                path:
+                    logs: target/elasticsearch/log
+                    data: target/elasticsearch/data
     mail:
         host: smtp.gmail.com
         port: 587
         username: danielcuba@gmail.com  #Replace this field with your Gmail username.
-        password: nopass           #Replace this field with your Gmail password.
+        password: aaaaaaaa           #Replace this field with your Gmail password.
         protocol: smtp
         tls: true
         properties.mail.smtp:
