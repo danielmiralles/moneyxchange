@@ -42,7 +42,7 @@
                 <td><a [routerLink]="['../currency', currency.id ]">{{currency.id}}</a></td>
                 <td>{{currency.code}}</td>
                 <td>{{currency.symbol}}</td>
-                <td>{{currency.symbolLeft}}</td>
+                <td><span jhiTranslate="moneyxchangeApp.currency.symbolLeftValues.{{currency.symbolLeft}}"></span></td>
                 <td>{{currency.description}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">

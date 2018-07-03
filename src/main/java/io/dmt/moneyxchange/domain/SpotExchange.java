@@ -39,7 +39,7 @@ public class SpotExchange implements Serializable {
     private Operation operation;
 
     @NotNull
-    @Column(name = "rate", precision=10, scale=2, nullable = false)
+    @Column(name = "rate", precision=10, scale=4, nullable = false)
     private BigDecimal rate;
 
     @ManyToOne(optional = false)

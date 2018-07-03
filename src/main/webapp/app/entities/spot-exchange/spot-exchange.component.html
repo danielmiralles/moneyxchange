@@ -43,7 +43,7 @@
                 <td><a [routerLink]="['../spot-exchange', spotExchange.id ]">{{spotExchange.id}}</a></td>
                 <td>{{spotExchange.fromInstant | date:'medium'}}</td>
                 <td jhiTranslate="{{'moneyxchangeApp.Operation.' + spotExchange.operation}}">{{spotExchange.operation}}</td>
-                <td>{{spotExchange.rate}}</td>
+                <td>{{spotExchange.rate | customcurrency : 4}}</td>
                 <td>
                     <div *ngIf="spotExchange.sourceCurrencyId">
                         <a [routerLink]="['../currency', spotExchange.sourceCurrencyId  ]" >{{spotExchange.sourceCurrencyCode}}</a>

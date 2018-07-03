@@ -19,8 +19,12 @@
             },
             "code": "Código",
             "symbol": "Símbolo",
-            "symbolLeft": "Símbolo al final",
-            "description": "Descripción"
+            "symbolLeft": "Símbolo al inicio",
+            "description": "Descripción",
+            "symbolLeftValues": {
+                "true": "Sí",
+                "false": "No"
+            }
         }
     }
 }

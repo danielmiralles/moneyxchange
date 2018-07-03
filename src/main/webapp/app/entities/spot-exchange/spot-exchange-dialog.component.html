@@ -45,7 +45,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="moneyxchangeApp.spotExchange.rate" for="field_rate">Rate</label>
             <input type="number" class="form-control" name="rate" id="field_rate"
-                [(ngModel)]="spotExchange.rate" required/>
+                [(ngModel)]="spotExchange.rate" required jhiCustomCurrency />
             <div [hidden]="!(editForm.controls.rate?.dirty && editForm.controls.rate?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.rate?.errors?.required" jhiTranslate="entity.validation.required">

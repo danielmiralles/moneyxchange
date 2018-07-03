@@ -22,6 +22,10 @@
             "rate": "Tasa",
             "sourceCurrency": "Moneda origen",
             "targetCurrency": "Moneda destino"
+        },
+        "Operation": {
+            "MULTIPLY": "Multiplicar",
+            "DIVIDE": "Dividir"
         }
     }
 }

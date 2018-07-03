@@ -30,7 +30,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="rate" type="decimal(10,2)">
+            <column name="rate" type="decimal(14,4)">
                 <constraints nullable="false" />
             </column>
 
@@ -45,7 +45,7 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="spot_exchange" columnName="from_instant" columnDataType="datetime"/>
-        
+
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
