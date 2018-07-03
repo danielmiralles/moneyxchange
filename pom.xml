@@ -4,7 +4,7 @@
 
     <groupId>io.dmt.moneyxchange</groupId>
     <artifactId>moneyxchange</artifactId>
-    <version>2.0</version>
+    <version>3.0</version>
     <packaging>war</packaging>
     <name>Moneyxchange</name>
 
